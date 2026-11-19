@@ -16,8 +16,14 @@ public class LeastLoadedAssignmentStrategy implements AssignmentStrategy {
             throw new IllegalStateException("No agents available to assign the ticket");
         }
 
-        // TODO(human): return the agent with the lowest getActiveTicketCount().
-        // Decide what happens on a tie (two agents with the same count).
-        throw new UnsupportedOperationException("LeastLoadedAssignmentStrategy not implemented yet");
+        // Pick the agent with the fewest active tickets.
+        // Tie-break: strict "<" keeps the first agent in the list, so ties go to the earliest registered agent.
+        Agent leastLoaded = agents.get(0);
+        for (Agent agent : agents) {
+            if (agent.getActiveTicketCount() < leastLoaded.getActiveTicketCount()) {
+                leastLoaded = agent;
+            }
+        }
+        return leastLoaded;
     }
 }
